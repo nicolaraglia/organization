@@ -1,12 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { Organization, Prisma } from '@prisma/client';
+import { Organization } from '@prisma/client';
+import { CreateOrganizationDto } from './create.organization.dto';
+import { UpdateOrganizationDto } from './update.organization.dto';
 
 @Injectable()
 export class OrganizationService {
   constructor(private prisma: PrismaService) {}
 
-  create(data: Prisma.OrganizationCreateInput): Promise<Organization> {
+  create(data: CreateOrganizationDto): Promise<Organization> {
     return this.prisma.organization.create({ data });
   }
 
@@ -18,7 +20,7 @@ export class OrganizationService {
     return this.prisma.organization.findUnique({ where: { id } });
   }
 
-  update(id: number, data: Prisma.OrganizationUpdateInput): Promise<Organization> {
+  update(id: number, data: UpdateOrganizationDto): Promise<Organization> {
     return this.prisma.organization.update({ where: { id }, data });
   }
 

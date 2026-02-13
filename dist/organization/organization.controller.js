@@ -15,24 +15,26 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.OrganizationController = void 0;
 const common_1 = require("@nestjs/common");
 const organization_service_1 = require("./organization.service");
+const create_organization_dto_1 = require("./create.organization.dto");
+const update_organization_dto_1 = require("./update.organization.dto");
 let OrganizationController = class OrganizationController {
     constructor(orgService) {
         this.orgService = orgService;
     }
-    create(data) {
-        return this.orgService.create(data);
+    create(createOrganizationDto) {
+        return this.orgService.create(createOrganizationDto);
     }
     findAll() {
         return this.orgService.findAll();
     }
     findOne(id) {
-        return this.orgService.findOne(Number(id));
+        return this.orgService.findOne(id);
     }
-    update(id, data) {
-        return this.orgService.update(Number(id), data);
+    update(id, updateOrganizationDto) {
+        return this.orgService.update(id, updateOrganizationDto);
     }
     remove(id) {
-        return this.orgService.remove(Number(id));
+        return this.orgService.remove(id);
     }
 };
 exports.OrganizationController = OrganizationController;
@@ -40,7 +42,7 @@ __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [create_organization_dto_1.CreateOrganizationDto]),
     __metadata("design:returntype", void 0)
 ], OrganizationController.prototype, "create", null);
 __decorate([
@@ -51,24 +53,24 @@ __decorate([
 ], OrganizationController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Get)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
 ], OrganizationController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Patch)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:paramtypes", [Number, update_organization_dto_1.UpdateOrganizationDto]),
     __metadata("design:returntype", void 0)
 ], OrganizationController.prototype, "update", null);
 __decorate([
     (0, common_1.Delete)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
 ], OrganizationController.prototype, "remove", null);
 exports.OrganizationController = OrganizationController = __decorate([

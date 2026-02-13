@@ -1,13 +1,24 @@
-import { Controller, Get, Post, Body, Param, Patch, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Patch,
+  Delete,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { OrganizationService } from './organization.service';
+import { CreateOrganizationDto } from './create.organization.dto';
+import { UpdateOrganizationDto } from './update.organization.dto';
 
 @Controller('organizations')
 export class OrganizationController {
   constructor(private readonly orgService: OrganizationService) {}
 
   @Post()
-  create(@Body() data: any) {
-    return this.orgService.create(data);
+  create(@Body() createOrganizationDto: CreateOrganizationDto) {
+    return this.orgService.create(createOrganizationDto);
   }
 
   @Get()
@@ -16,17 +27,20 @@ export class OrganizationController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.orgService.findOne(Number(id));
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.orgService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() data: any) {
-    return this.orgService.update(Number(id), data);
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateOrganizationDto: UpdateOrganizationDto,
+  ) {
+    return this.orgService.update(id, updateOrganizationDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.orgService.remove(Number(id));
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.orgService.remove(id);
   }
 }
