@@ -7,6 +7,7 @@ import {
   Patch,
   Delete,
   ParseIntPipe,
+  Inject,
 } from '@nestjs/common';
 import { OrganizationService } from './organization.service';
 import { CreateOrganizationDto } from './create.organization.dto';

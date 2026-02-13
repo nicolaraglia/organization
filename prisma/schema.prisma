@@ -6,10 +6,20 @@ datasource db {
   provider = "postgresql"
 }
 
+enum OrganizationType {
+  COMPANY
+  NON_PROFIT
+  PUBLIC_ADMINISTRATION
+  SCHOOL
+  HEALTHCARE
+  OTHER
+}
+
 
 model Organization {
   id        Int      @id @default(autoincrement())
   name      String
+  type      OrganizationType @default(COMPANY)
   address   String?
   vat       String?  // P.IVA o simile
   createdAt DateTime @default(now())
