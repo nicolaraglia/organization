@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
@@ -10,7 +11,7 @@ export class PrismaService
 {
   constructor() {
     const connectionString =
-      process.env.DATABASE_URL ?? 'postgresql://postgres:postgres@localhost:5433/postgres';
+      process.env.DATABASE_URL ?? 'postgresql://postgres:postgres@localhost:5432/postgres';
     const pool = new Pool({ connectionString });
     const adapter = new PrismaPg(pool);
 

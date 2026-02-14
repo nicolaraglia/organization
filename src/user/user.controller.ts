@@ -1,9 +1,10 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Inject } from '@nestjs/common';
 import { UserService } from './user.service';
 
 @Controller('users')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  @Inject(UserService)
+  private readonly userService: UserService;
 
   @Post('signup')
   async signup(@Body() body: { email: string; password: string; firstName?: string; lastName?: string; organizationId?: number; role?: string; }) {

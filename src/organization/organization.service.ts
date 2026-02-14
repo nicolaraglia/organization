@@ -1,15 +1,22 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { Organization } from '@prisma/client';
 import { CreateOrganizationDto } from './create.organization.dto';
 import { UpdateOrganizationDto } from './update.organization.dto';
+import { OrganizationPrismaMapper } from './organization-prisma.mapper';
 
 @Injectable()
 export class OrganizationService {
-  constructor(private prisma: PrismaService) {}
 
+  @Inject(PrismaService)
+  private readonly prisma: PrismaService;
+
+  @Inject(OrganizationPrismaMapper)
+  private readonly organizationPrismaMapper: OrganizationPrismaMapper;
+  
   create(data: CreateOrganizationDto): Promise<Organization> {
-    return this.prisma.organization.create({ data });
+    const prismaData = this.organizationPrismaMapper.toCreateData(data);
+    return this.prisma.organization.create({ data: prismaData });
   }
 
   findAll(): Promise<Organization[]> {
@@ -21,7 +28,8 @@ export class OrganizationService {
   }
 
   update(id: number, data: UpdateOrganizationDto): Promise<Organization> {
-    return this.prisma.organization.update({ where: { id }, data });
+    const prismaData = this.organizationPrismaMapper.toUpdateData(data);
+    return this.prisma.organization.update({ where: { id }, data: prismaData });
   }
 
   remove(id: number): Promise<Organization> {

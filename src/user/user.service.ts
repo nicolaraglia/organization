@@ -1,11 +1,13 @@
-import { Injectable, UnauthorizedException, ConflictException } from '@nestjs/common';
+import { Injectable, UnauthorizedException, ConflictException, Inject } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { Prisma, User } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
-  constructor(private prisma: PrismaService) {}
+  @Inject(PrismaService)  
+  private readonly prisma: PrismaService; 
+  
 
   async signup(userData: Prisma.UserCreateInput): Promise<Partial<User>> {
     const existing = await this.prisma.user.findUnique({ where: { email: userData.email } });
