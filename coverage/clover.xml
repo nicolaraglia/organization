@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1771178685376" clover="3.2.0">
-  <project timestamp="1771178685376" name="All files">
-    <metrics statements="29" coveredstatements="17" conditionals="12" coveredconditionals="5" methods="5" coveredmethods="1" elements="46" coveredelements="23" complexity="0" loc="29" ncloc="29" packages="2" files="2" classes="2"/>
+<coverage generated="1771179234471" clover="3.2.0">
+  <project timestamp="1771179234471" name="All files">
+    <metrics statements="29" coveredstatements="23" conditionals="12" coveredconditionals="9" methods="5" coveredmethods="2" elements="46" coveredelements="34" complexity="0" loc="29" ncloc="29" packages="2" files="2" classes="2"/>
     <package name="prisma">
       <metrics statements="12" coveredstatements="6" conditionals="2" coveredconditionals="0" methods="3" coveredmethods="0"/>
       <file name="prisma.service.ts" path="/home/niko/Dev/FlexQueue/organization/src/prisma/prisma.service.ts">
@@ -21,9 +21,9 @@
       </file>
     </package>
     <package name="user">
-      <metrics statements="17" coveredstatements="11" conditionals="10" coveredconditionals="5" methods="2" coveredmethods="1"/>
+      <metrics statements="17" coveredstatements="17" conditionals="10" coveredconditionals="9" methods="2" coveredmethods="2"/>
       <file name="user.service.ts" path="/home/niko/Dev/FlexQueue/organization/src/user/user.service.ts">
-        <metrics statements="17" coveredstatements="11" conditionals="10" coveredconditionals="5" methods="2" coveredmethods="1"/>
+        <metrics statements="17" coveredstatements="17" conditionals="10" coveredconditionals="9" methods="2" coveredmethods="2"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="4" count="1" type="stmt"/>
@@ -35,12 +35,12 @@
         <line num="19" count="1" type="stmt"/>
         <line num="23" count="1" type="stmt"/>
         <line num="24" count="1" type="stmt"/>
-        <line num="28" count="0" type="stmt"/>
-        <line num="29" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="30" count="0" type="stmt"/>
-        <line num="31" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="32" count="0" type="stmt"/>
-        <line num="33" count="0" type="stmt"/>
+        <line num="28" count="3" type="stmt"/>
+        <line num="29" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="30" count="2" type="stmt"/>
+        <line num="31" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="32" count="1" type="stmt"/>
+        <line num="33" count="1" type="stmt"/>
       </file>
     </package>
   </project>

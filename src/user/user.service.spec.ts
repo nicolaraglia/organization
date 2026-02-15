@@ -58,4 +58,31 @@ describe('UserService', () => {
 
       await expect(service.signup(userData)).rejects.toThrow('Email already in use');  
     });
-});
+
+    it('should login a user with correct credentials', async () => {
+      const loginData = { email: 'test@example.com', password: 'password' };
+      const hashedPassword = '$2b$10$qm9a/TVvuYT/ElpM6QIcUunakWJSU8LvL2C6GvD1D1iqy.K5fCN2W'; // example hashed password
+      mockPrismaService.user.findUnique.mockResolvedValue({ id: 1, email: loginData.email, password: hashedPassword, role: 'user' });
+
+      const result = await service.login(loginData);
+
+      expect(result.email).toEqual(loginData.email);
+      expect(result.password).toBeUndefined(); // la password non deve essere restituita
+      expect(result.role).toEqual('user');
+    });
+
+    it('should throw UnauthorizedException if email is not found on login', async () => {
+      const loginData = { email: 'nonexistent@example.com', password: 'password' };
+      mockPrismaService.user.findUnique.mockResolvedValue(null);
+    
+      await expect(service.login(loginData)).rejects.toThrow('Invalid credentials');
+    });
+    
+    it('should throw UnauthorizedException if password is incorrect on login', async () => {
+      const loginData = { email: 'test@example.com', password: 'wrongpassword' };
+      const hashedPassword = '$2b$10$qm9a/TVvuYT/ElpM6QIcUunakWJSU8LvL2C6GvD1D1iqy.K5fCN2W'; // example hashed password
+      mockPrismaService.user.findUnique.mockResolvedValue({ id: 1, email: loginData.email, password: hashedPassword, role: 'user' });
+
+      await expect(service.login(loginData)).rejects.toThrow('Invalid credentials');
+    }); 
+  });
