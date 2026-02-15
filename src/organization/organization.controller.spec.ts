@@ -4,7 +4,7 @@ import { OrganizationService } from './organization.service';
 
 describe('OrganizationController', () => {
   let controller: OrganizationController;
-  let service: OrganizationService;
+  
 
   const mockOrganizationService = {
     create: jest.fn(),
@@ -26,7 +26,7 @@ describe('OrganizationController', () => {
     }).compile();
 
     controller = module.get<OrganizationController>(OrganizationController);
-    service = module.get<OrganizationService>(OrganizationService);
+    const service = mockOrganizationService;
   });
 
   it('should be defined', () => {

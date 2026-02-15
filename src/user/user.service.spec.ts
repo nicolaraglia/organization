@@ -1,12 +1,16 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserService } from './user.service';
+import { PrismaService } from '../prisma/prisma.service';
 
 describe('UserService', () => {
   let service: UserService; 
-  //User Service depends on UserPrismaService, so we need to mock it
-  const mockUserPrismaService = {
+  //User Service depends on PrismaService, so we need to mock it
+  const mockPrismaService = {
+    user: { 
+
     create: jest.fn(),
     findUnique: jest.fn(),
+    },
   };
 
   beforeEach(async () => {
@@ -14,8 +18,8 @@ describe('UserService', () => {
       providers: [
         UserService,
         {
-          provide: 'UserPrismaService',
-          useValue: mockUserPrismaService,
+          provide: PrismaService,
+          useValue: mockPrismaService,
         },
       ],
     }).compile();
