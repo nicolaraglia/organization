@@ -1,0 +1,9 @@
+
+export const ORGANIZATION_TYPE_VALUES = [
+	'COMPANY',
+	'NON_PROFIT',
+	'PUBLIC_ADMINISTRATION',
+	'SCHOOL',
+	'HEALTHCARE',
+	'OTHER',
+	] as const;
