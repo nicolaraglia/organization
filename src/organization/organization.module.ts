@@ -1,12 +1,32 @@
-// src/organization/organization.module.ts
 import { Module } from '@nestjs/common';
-import { OrganizationService } from './organization.service';
-import { OrganizationController } from './organization.controller';
-import { PrismaService } from '../prisma/prisma.service';
-import { OrganizationPrismaMapper } from './organization-prisma.mapper';
+
+import { OrganizationSignupController } from './controller/organization-signup.controller';
+import { OrganizationLoginController } from './controller/organization-login.controller';
+import { OrganizationSignupService } from './service/organization-signup.service';
+import { OrganizationPrismaMapper } from './dto/organization-prisma.mapper';
+import { EmailService } from './service/email.service';
+import { OrganizationRepository } from './repository/organization.repository';
+import { LocalOrganizationAuthProvider } from './provider/local-organization-auth.provider';
+import { ORGANIZATION_AUTH_PROVIDER } from './provider/organization-auth.provider';
+import { OrganizationTokenService } from './service/organization-token.service';
+import { PrismaModule } from '../prisma/prisma.module';
 
 @Module({
-  controllers: [OrganizationController],
-  providers: [OrganizationService, PrismaService, OrganizationPrismaMapper],
+  imports: [PrismaModule],
+  controllers: [OrganizationSignupController, OrganizationLoginController],
+  providers: [
+    
+    OrganizationSignupService,
+    OrganizationRepository,
+    OrganizationTokenService,
+    LocalOrganizationAuthProvider,
+    {
+      provide: ORGANIZATION_AUTH_PROVIDER,
+      useExisting: LocalOrganizationAuthProvider,
+    },
+    OrganizationPrismaMapper,
+    EmailService,
+  ],
+  exports: [OrganizationSignupService],
 })
 export class OrganizationModule {}

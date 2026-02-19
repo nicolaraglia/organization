@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">17.85% </span>
+                <span class="strong">29.41% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>5/28</span>
+                <span class='fraction'>5/17</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/19</span>
+                <span class='fraction'>0/11</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/3</span>
+                <span class='fraction'>0/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">11.53% </span>
+                <span class="strong">20% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>3/26</span>
+                <span class='fraction'>3/15</span>
             </div>
         
             
@@ -119,21 +119,13 @@
 <a name='L54'></a><a href='#L54'>54</a>
 <a name='L55'></a><a href='#L55'>55</a>
 <a name='L56'></a><a href='#L56'>56</a>
-<a name='L57'></a><a href='#L57'>57</a>
-<a name='L58'></a><a href='#L58'>58</a>
-<a name='L59'></a><a href='#L59'>59</a>
-<a name='L60'></a><a href='#L60'>60</a>
-<a name='L61'></a><a href='#L61'>61</a>
-<a name='L62'></a><a href='#L62'>62</a>
-<a name='L63'></a><a href='#L63'>63</a>
-<a name='L64'></a><a href='#L64'>64</a>
-<a name='L65'></a><a href='#L65'>65</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<a name='L57'></a><a href='#L57'>57</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -158,6 +150,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -169,32 +168,17 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Injectable } from '@nestjs/common';
 import { OrganizationType, Prisma } from '@prisma/client';
-import { CreateOrganizationDto } from './create.organization.dto';
-import { UpdateOrganizationDto } from './update.organization.dto';
+import { SignupOrganizationDto } from './signup.organization.dto';
+&nbsp;
 &nbsp;
 @Injectable()
 export class OrganizationPrismaMapper {
@@ -221,39 +205,31 @@ export class OrganizationPrismaMapper {
     }
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  toCreateData(</span>dto: CreateOrganizationDto): Prisma.OrganizationCreateInput {
+<span class="fstat-no" title="function not covered" >  toSignupData(</span>dto: SignupOrganizationDto): {
+    organization: Prisma.OrganizationCreateInput;
+    adminUser: {
+      email: string;
+      firstName: string;
+      lastName: string;
+    };
+  } {
     const organizationType = <span class="cstat-no" title="statement not covered" >this.mapOrganizationType(dto.type);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    return {</span>
-      name: dto.name,
-      address: dto.address,
-      vat: dto.vat,
-      ...(organizationType ? { type: organizationType } : {}),
+      organization: {
+        name: dto.name,
+        address: dto.address,
+        vat: dto.vat,
+        ...(organizationType ? { type: organizationType } : {}),
+      },
+      adminUser: {
+        email: dto.adminEmail,
+        firstName: dto.adminFirstName,
+        lastName: dto.adminLastName,
+      },
     };
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  toUpdateData(</span>dto: UpdateOrganizationDto): Prisma.OrganizationUpdateInput {
-    const organizationType = <span class="cstat-no" title="statement not covered" >this.mapOrganizationType(dto.type);</span>
-    const data: Prisma.OrganizationUpdateInput = <span class="cstat-no" title="statement not covered" >{};</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >    if (dto.name !== undefined) {</span>
-<span class="cstat-no" title="statement not covered" >      data.name = dto.name;</span>
-    }
-&nbsp;
-<span class="cstat-no" title="statement not covered" >    if (organizationType !== undefined) {</span>
-<span class="cstat-no" title="statement not covered" >      data.type = organizationType;</span>
-    }
-&nbsp;
-<span class="cstat-no" title="statement not covered" >    if (dto.address !== undefined) {</span>
-<span class="cstat-no" title="statement not covered" >      data.address = dto.address;</span>
-    }
-&nbsp;
-<span class="cstat-no" title="statement not covered" >    if (dto.vat !== undefined) {</span>
-<span class="cstat-no" title="statement not covered" >      data.vat = dto.vat;</span>
-    }
-&nbsp;
-<span class="cstat-no" title="statement not covered" >    return data;</span>
-  }
 }
 &nbsp;</pre></td></tr></table></pre>
 
@@ -262,7 +238,7 @@ export class OrganizationPrismaMapper {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-02-15T17:11:23.786Z
+                at 2026-02-19T19:48:00.510Z
             </div>
         <script src="../prettify.js"></script>
         <script>
