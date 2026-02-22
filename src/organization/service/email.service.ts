@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
 
 export interface WelcomeEmailData {
@@ -11,13 +11,15 @@ export interface WelcomeEmailData {
 
 @Injectable()
 export class EmailService {
+  private readonly logger = new Logger(EmailService.name);
   private transporter: nodemailer.Transporter;
 
   constructor() {
+    const smtpPort = parseInt(process.env.SMTP_PORT || '587');
     this.transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST || 'smtp.gmail.com',
-      port: parseInt(process.env.SMTP_PORT || '587'),
-      secure: false,
+      port: smtpPort,
+      secure: smtpPort === 465,
       auth: {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASSWORD,
@@ -35,9 +37,10 @@ export class EmailService {
 
     try {
       await this.transporter.sendMail(mailOptions);
-      console.log(`Welcome email sent to ${data.email}`);
+      this.logger.log(`Welcome email sent to ${data.email}`);
     } catch (error) {
-      console.error('Error sending email:', error);
+      const errorText = error instanceof Error ? error.message : String(error);
+      this.logger.error(`Error sending welcome email to ${data.email}: ${errorText}`);
       throw new Error('Failed to send welcome email');
     }
   }

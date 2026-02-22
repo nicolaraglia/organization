@@ -1,6 +1,7 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { Prisma, User } from '@prisma/client';
 import { PrismaService } from '../../prisma/prisma.service';
+import { log } from 'console';
 
 type AdminUserData = {
   email: string;
@@ -14,6 +15,7 @@ export class OrganizationRepository {
   private readonly prisma: PrismaService;
 
   async findUserByEmail(email: string): Promise<User | null> {
+    log(`Searching for user with email: ${email}`);
     return this.prisma.user.findUnique({
       where: { email },
     });

@@ -147,6 +147,40 @@ describe('OrganizationSignupService', () => {
     expect(mockEmailService.sendWelcomeEmail).not.toHaveBeenCalled();
   });
 
+  it('should create organization even when welcome email sending fails', async () => {
+    process.env.APP_URL = 'https://app.flexqueue.com';
+    mockMapper.toSignupData.mockReturnValue(mappedData);
+    mockOrganizationRepository.findUserByEmail.mockResolvedValue(null);
+    mockOrganizationRepository.createOrganizationWithAdmin.mockResolvedValue({
+      organization: { id: 11 },
+      user: { id: 22 },
+    });
+    mockEmailService.sendWelcomeEmail.mockRejectedValue(new Error('smtp auth failed'));
+    jest.spyOn(service as any, 'generateTemporaryPassword').mockReturnValue('Temp#123456789');
+    jest.spyOn(service as any, 'hashPassword').mockResolvedValue('hashed-password');
+
+    const result = await service.signup(baseDto);
+
+    expect(mockOrganizationRepository.createOrganizationWithAdmin).toHaveBeenCalledWith({
+      organization: mappedData.organization,
+      adminUser: mappedData.adminUser,
+      passwordHash: 'hashed-password',
+    });
+    expect(mockEmailService.sendWelcomeEmail).toHaveBeenCalledWith({
+      email: mappedData.adminUser.email,
+      firstName: mappedData.adminUser.firstName,
+      organizationName: mappedData.organization.name,
+      temporaryPassword: 'Temp#123456789',
+      loginUrl: 'https://app.flexqueue.com/login',
+    });
+    expect(result).toEqual({
+      organizationId: 11,
+      userId: 22,
+      message:
+        'Organization registered successfully, but we could not send the welcome email. Please contact support to reset credentials.',
+    });
+  });
+
   it('should delegate login to configured auth provider', async () => {
     const loginData = {
       email: 'admin@acme.com',

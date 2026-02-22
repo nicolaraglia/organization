@@ -1,4 +1,4 @@
-import { Injectable, ConflictException, Inject } from '@nestjs/common';
+import { Injectable, ConflictException, Inject, Logger } from '@nestjs/common';
 import { OrganizationPrismaMapper } from '../dto/organization-prisma.mapper';
 import { SignupOrganizationDto } from '../dto/signup.organization.dto';
 import { EmailService } from './email.service';
@@ -14,15 +14,16 @@ import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class OrganizationSignupService {
-@Inject(OrganizationPrismaMapper)
-private readonly mapper: OrganizationPrismaMapper
-@Inject(EmailService)
-private readonly emailService: EmailService;
-@Inject(OrganizationRepository)
-private readonly organizationRepository: OrganizationRepository;
-@Inject(ORGANIZATION_AUTH_PROVIDER)
-private readonly authProvider: OrganizationAuthProvider;
-  
+  private readonly logger = new Logger(OrganizationSignupService.name);
+
+  @Inject(OrganizationPrismaMapper)
+  private readonly mapper: OrganizationPrismaMapper;
+  @Inject(EmailService)
+  private readonly emailService: EmailService;
+  @Inject(OrganizationRepository)
+  private readonly organizationRepository: OrganizationRepository;
+  @Inject(ORGANIZATION_AUTH_PROVIDER)
+  private readonly authProvider: OrganizationAuthProvider;
 
   async signup(dto: SignupOrganizationDto) {
     const { organization, adminUser } = this.mapper.toSignupData(dto);
@@ -34,6 +35,7 @@ private readonly authProvider: OrganizationAuthProvider;
       throw new ConflictException('Email already registered');
     }
 
+    this.logger.log(`Creating organization with admin user: ${adminUser.email}`);
     // Generate temporary password
     const temporaryPassword = this.generateTemporaryPassword();
     const passwordHash = await this.hashPassword(temporaryPassword);
@@ -45,21 +47,33 @@ private readonly authProvider: OrganizationAuthProvider;
         passwordHash,
       });
 
+      this.logger.log(
+        `Organization created with ID: ${result.organization.id} and admin user ID: ${result.user.id}`,
+      );
       // Send welcome email with credentials
       const loginUrl = `${process.env.APP_URL || 'http://localhost:3000'}/login`;
-      
-      await this.emailService.sendWelcomeEmail({
-        email: adminUser.email,
-        firstName: adminUser.firstName,
-        organizationName: organization.name,
-        temporaryPassword,
-        loginUrl,
-      });
+      let message = 'Organization registered successfully. Please check your email for login credentials.';
+
+      try {
+        await this.emailService.sendWelcomeEmail({
+          email: adminUser.email,
+          firstName: adminUser.firstName,
+          organizationName: organization.name,
+          temporaryPassword,
+          loginUrl,
+        });
+        this.logger.log(`Welcome email sent to: ${adminUser.email}`);
+      } catch (error) {
+        const errorStack = error instanceof Error ? error.stack : String(error);
+        this.logger.error(`Welcome email delivery failed for ${adminUser.email}`, errorStack);
+        message =
+          'Organization registered successfully, but we could not send the welcome email. Please contact support to reset credentials.';
+      }
 
       return {
         organizationId: result.organization.id,
         userId: result.user.id,
-        message: 'Organization registered successfully. Please check your email for login credentials.',
+        message,
       };
     } catch (error) {
       console.error('Signup error:', error);
