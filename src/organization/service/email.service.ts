@@ -27,6 +27,24 @@ export class EmailService {
     });
   }
 
+  async sendEmail(to: string, subject: string, html: string): Promise<void> {
+    const mailOptions = {
+      from: process.env.SMTP_FROM || 'noreply@flexqueue.com',
+      to,
+      subject,
+      html,
+    };
+
+    try {
+      await this.transporter.sendMail(mailOptions);
+      this.logger.log(`Email sent to ${to}`);
+    } catch (error) {
+      const errorText = error instanceof Error ? error.message : String(error);
+      this.logger.error(`Error sending email to ${to}: ${errorText}`);
+      throw new Error('Failed to send email');
+    }
+  }
+
   async sendWelcomeEmail(data: WelcomeEmailData): Promise<void> {
     const mailOptions = {
       from: process.env.SMTP_FROM || 'noreply@flexqueue.com',

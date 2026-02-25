@@ -4,7 +4,7 @@ import { LoginOrganizationDto } from '../dto/login-organization.dto';
 import { OrganizationSignupService } from '../service/organization-signup.service';
 
 @ApiTags('organization')
-@Controller('organization')
+@Controller('organization/login')
 export class OrganizationLoginController {
   @Inject(OrganizationSignupService)
   private readonly organizationSignupService: OrganizationSignupService;
