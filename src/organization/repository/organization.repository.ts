@@ -11,8 +11,32 @@ type AdminUserData = {
 
 @Injectable()
 export class OrganizationRepository {
+  findUserByResetToken(token: string) {
+      // This method retrieves a user based on the provided password reset token, ensuring that the token is still valid (i.e., it has not expired).
+      return this.prisma.user.findFirst({
+        where: {
+          passwordResetToken: token,
+          passwordResetTokenExpiresAt: {
+            gt: new Date(),
+          },
+        },
+      }); 
+  }
+   
   @Inject(PrismaService)
   private readonly prisma: PrismaService;
+
+  updateUserPasswordResetToken(id: number, uuid: string) {
+      // This method updates the user's record with the generated password reset token and its expiration time.
+      return this.prisma.user.update({
+        where: { id },
+        data: {
+          passwordResetToken: uuid,
+          passwordResetTokenExpiresAt: new Date(Date.now() + 3600 * 1000), // 1 hour from now
+        },
+      });   
+   }
+
 
   async findUserByEmail(email: string): Promise<User | null> {
     log(`Searching for user with email: ${email}`);
