@@ -12,7 +12,7 @@ export class OrganizationLoginController {
   @ApiOperation({ summary: 'Organization admin login' })
   @ApiResponse({ status: 200, description: 'Login successful' })
   @ApiResponse({ status: 401, description: 'Invalid credentials' })
-  @Post('login')
+  @Post()
   async login(@Body() body: LoginOrganizationDto) {
     return this.organizationSignupService.login(body);
   }
