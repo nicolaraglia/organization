@@ -39,6 +39,8 @@ describe('OrganizationResetPasswordController', () => {
       expect(service.initiatePasswordReset).toHaveBeenCalledWith('test@example.com');
       expect(res.status).toHaveBeenCalledWith(200);
       expect(res.json).toHaveBeenCalledWith({ message: "Password reset initiated. Please check your email." });
+      
+      
     });
   });
 

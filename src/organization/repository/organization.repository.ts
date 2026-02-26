@@ -37,6 +37,7 @@ export class OrganizationRepository {
 
   updateUserPasswordResetToken(id: number , uuid: string | null) {
       // This method updates the user's record with the generated password reset token and its expiration time.
+      console.log(`Updating user with ID ${id} to set password reset token: ${uuid}`);
       return this.prisma.user.update({
         where: { id },
         data: {
